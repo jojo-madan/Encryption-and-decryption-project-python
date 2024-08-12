@@ -1,0 +1,65 @@
+# Import necessary libraries (if any were to be used)
+import cryptography  # Placeholder import for demonstration; not used in this code
+
+# Function to encrypt plaintext using a numeric key
+def encrypt(plaintext, key):
+    ciphertext = ""  # Initialize an empty string for the ciphertext
+    key_length = len(key)  # Get the length of the key for looping
+
+    # Loop through each character in the plaintext
+    for i in range(len(plaintext)):
+        char = plaintext[i]  # Get the current character from the plaintext
+        key_digit = ord(key[i % key_length]) - ord('0')  # Get the numeric value of the corresponding key character
+        shifted_value = ord(char) + key_digit  # Shift the character by the key digit value
+        encrypted_char = chr(shifted_value % 256)  # Ensure the value stays within ASCII range and convert back to a character
+        ciphertext += encrypted_char  # Append the encrypted character to the ciphertext
+
+    return ciphertext  # Return the final ciphertext
+
+# Function to decrypt ciphertext using a numeric key
+def decrypt(ciphertext, key):
+    decrypted_text = ""  # Initialize an empty string for the decrypted text
+    key_length = len(key)  # Get the length of the key for looping
+
+    # Loop through each character in the ciphertext
+    for i in range(len(ciphertext)):
+        char = ciphertext[i]  # Get the current character from the ciphertext
+        key_digit = ord(key[i % key_length]) - ord('0')  # Get the numeric value of the corresponding key character
+        shifted_value = ord(char) - key_digit  # Shift the character back by the key digit value
+        decrypted_char = chr(shifted_value % 256)  # Ensure the value stays within ASCII range and convert back to a character
+        decrypted_text += decrypted_char  # Append the decrypted character to the decrypted text
+
+    return decrypted_text  # Return the final decrypted text
+
+# Main function to run the program
+def main():
+    while True:  # Loop to keep the program running until the user exits
+        print("One-Time Pad Encryption and Decryption")  # Display program title
+        print("1. Encrypt a message")  # Option to encrypt
+        print("2. Decrypt a message")  # Option to decrypt
+        print("3. Exit")  # Option to exit
+
+        choice = input("Choose an option (1/2/3): ")  # Prompt the user to choose an option
+
+        if choice == '1':  # If the user chooses to encrypt
+            plaintext = input("Enter the plaintext (any characters): ")  # Get the plaintext from the user
+            key = input("Enter a 2-digit numeric key: ")  # Get the key from the user
+            ciphertext = encrypt(plaintext, key)  # Encrypt the plaintext
+            print(f"Ciphertext: {ciphertext}")  # Display the resulting ciphertext
+
+        elif choice == '2':  # If the user chooses to decrypt
+            ciphertext = input("Enter the ciphertext (any characters): ")  # Get the ciphertext from the user
+            key = input("Enter the 2-digit numeric key: ")  # Get the key from the user
+            decrypted_text = decrypt(ciphertext, key)  # Decrypt the ciphertext
+            print(f"Decrypted text: {decrypted_text}")  # Display the resulting decrypted text
+
+        elif choice == '3':  # If the user chooses to exit
+            print("Exiting the application.")  # Display exit message
+            break  # Exit the loop and end the program
+
+        else:  # If the user inputs an invalid option
+            print("Invalid option. Please choose again.")  # Prompt the user to choose a valid option
+
+# Check if the script is being run directly (not imported), and run the main function
+if __name__ == "__main__":
+    main()
